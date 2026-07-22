@@ -36,3 +36,10 @@ Playwright, TypeScript, Postman, JIRA, Git
 
 ## Screenshots & Reports
 Sample screenshots and test execution reports are available under [`test-reports/`](./test-reports) and [`bug-reports/`](./bug-reports).
+
+## Platform Context
+This AI Dispute Resolution Engine is one of several products built on a shared, company-wide
+platform layer (Auth, Ledger/Reconciliation Engines, Audit Logs, Notification Service, etc.)
+alongside Collection, Payout, Connected Banking, BBPS, Reseller, and YOBO. See
+[`docs/shared-platform-services.md`](./docs/shared-platform-services.md) for how this product
+depends on those shared services and the testing implications of that.
