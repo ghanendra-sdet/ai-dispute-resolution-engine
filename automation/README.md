@@ -1,5 +1,9 @@
 # AI Dispute Resolution Engine — Automation Framework
 
+> Automated scenarios trace directly to [`../regression-checklist.md`](../regression-checklist.md)
+> sections 1–2 (intent recognition + AI-resolved happy path across all 6 products). See
+> [`../docs/README.md`](../docs/README.md) for the full documentation map.
+
 Automation for the shared dispute-resolution conversational flow, built with **Playwright +
 TypeScript**.
 
@@ -38,7 +42,7 @@ conversations or real account data.
 ## Priority Automated Scenarios
 
 1. Intent recognition accuracy per category
-2. AI-resolved happy path per category, starting with Transaction Status across all 5 connected
+2. AI-resolved happy path per category, starting with Transaction Status across all 6 connected
    products
 3. Escalation fallback triggers
 4. Context retention across multi-turn conversations

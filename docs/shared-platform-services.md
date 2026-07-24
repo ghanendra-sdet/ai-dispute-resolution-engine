@@ -60,6 +60,11 @@ can surface here as a *dispute-resolution* defect even though the root cause is 
   (see the README's Key Achievements) depend on accurate, up-to-date transaction and ledger data
   sourced from the same shared engines Collection and Payout write into — the AI model reasons
   over this shared source of truth, it doesn't maintain its own separate transaction record
+- **Commercial Engine** — Commission/Revenue Dispute queries raised from Reseller (see
+  [`business-overview.md`](./business-overview.md) section 4) require the AI to reason over the
+  same commission-calculation data the Commercial Engine produces for the Reseller Dashboard's
+  Revenue module — a shared-engine defect there can surface here as an AI-suggested "explanation"
+  of an already-wrong figure
 - **Notification Service** — escalation triggers and real-time status updates to merchants and
   human agents (the fallback path in negative/boundary AI testing) flow through the shared
   notification layer

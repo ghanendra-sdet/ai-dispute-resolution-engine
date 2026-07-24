@@ -1,18 +1,24 @@
 # AI Dispute Resolution Engine — Architecture & Flow
 
+> See [`business-overview.md`](./business-overview.md) for why this engine is shared across six
+> products rather than built per-product, and [`README.md`](./README.md) for the full
+> documentation map.
+
 ## Cross-Product Intake Flow
 
 ```
-┌───────────┐  ┌────────┐  ┌───────────────────┐  ┌──────┐  ┌──────┐
-│ Collection│  │ Payout │  │ Connected Banking  │  │ BBPS │  │ YOBO │
-└─────┬─────┘  └────┬───┘  └─────────┬──────────┘  └──┬───┘  └──┬───┘
-      │             │                │                │         │
-      └─────────────┴────────────────┴────────────────┴─────────┘
+┌───────────┐ ┌────────┐ ┌───────────────────┐ ┌──────┐ ┌──────────┐ ┌──────┐
+│ Collection│ │ Payout │ │ Connected Banking  │ │ BBPS │ │ Reseller │ │ YOBO │
+└─────┬─────┘ └────┬───┘ └─────────┬──────────┘ └──┬───┘ └────┬─────┘ └──┬───┘
+      │            │               │               │          │          │
+      └────────────┴───────────────┴───────────────┴──────────┴──────────┘
                                  │
                                  ▼
                  ┌───────────────────────────────┐
                  │  AI Dispute Resolution Engine   │
-                 │  (single shared entry point)    │
+                 │  (single shared entry point —   │
+                 │  the one final destination for  │
+                 │  issues from any of the 6)      │
                  └───────────────────────────────┘
 ```
 
@@ -29,9 +35,9 @@ Issue received (with product context)
 Intent Recognition
         │
         ▼
-Classify into one of 5 categories:
+Classify into one of 6 categories:
   Transaction Status / Email Change / Mobile Number Change /
-  Merchant Onboarding / General Fintech Q&A
+  Merchant Onboarding / Commission-Revenue Dispute / General Fintech Q&A
         │
         ├──▶ High confidence ──▶ AI proposes/executes resolution
         │                              │
@@ -52,7 +58,7 @@ Classify into one of 5 categories:
 
 ## Why Some Categories Escalate More Than Others
 
-Not all 5 categories carry equal escalation risk:
+Not all 6 categories carry equal escalation risk:
 
 - **Transaction Status** and **General Fintech Q&A** are typically safe for full AI resolution —
   informational, low-risk if slightly imperfect
@@ -62,6 +68,10 @@ Not all 5 categories carry equal escalation risk:
 - **Merchant Onboarding** questions often depend on state outside the AI's direct control (e.g.
   a pending KYC document review) — the AI can answer status questions confidently but shouldn't
   attempt to "resolve" an onboarding block it doesn't control
+- **Commission / Revenue Dispute** questions touch real money owed to a reseller — the AI can
+  confidently explain *how* commission is calculated (transparent, rule-based) but should
+  escalate rather than unilaterally "correct" a commission figure, since any adjustment needs a
+  human-auditable trail back to the Commercial Engine's source data
 
 **Testing implication:** the ~80% AI-resolution rate is a platform-wide average — regression
 should track resolution rate *per category*, not just in aggregate, since a category like Email
@@ -73,7 +83,7 @@ reasons.
 
 ```
    ┌────────────────────────────────────────────────┐
-   │        5 Connected Products (issue sources)      │
+   │        6 Connected Products (issue sources)      │
    └───────────────────────┬──────────────────────────┘
                             ▼
                  ┌─────────────────────┐
