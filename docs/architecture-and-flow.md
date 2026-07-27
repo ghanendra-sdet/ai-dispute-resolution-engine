@@ -1,7 +1,8 @@
 # AI Dispute Resolution Engine — Architecture & Flow
 
-> See [`business-overview.md`](./business-overview.md) for why this engine is shared across six
-> products rather than built per-product, and [`README.md`](./README.md) for the full
+> See [`business-overview.md`](./business-overview.md) section 1 for what this product actually
+> is (an AI Operations Copilot, of which dispute resolution is one capability) and why it's shared
+> across six products rather than built per-product, and [`README.md`](./README.md) for the full
 > documentation map.
 
 ## Cross-Product Intake Flow
@@ -55,6 +56,23 @@ Classify into one of 6 categories:
                      ▼
               Human agent resolves ──▶ Ticket CLOSED
 ```
+
+## The General Action-Tier Model
+
+Everything below in this section — commission adjustments, security-sensitive changes, onboarding
+status — is a specific instance of a general principle that applies to every capability the
+Copilot has, not just dispute resolution:
+
+```
+Understand & Recommend (read-only)  →  always autonomous, no approval gate
+Low-risk action (reversible, no $ / security exposure)  →  autonomous
+High-risk action (refund, approve beneficiary, block merchant, create settlement)
+    →  AI proposes + reasoning attached  →  human confirms  →  executes
+    →  every proposal audit-logged regardless of outcome
+```
+
+The dispute/support flow below is where this principle is most deeply tested — the escalation
+logic per category is the action-tier model applied specifically to conversational support.
 
 ## Why Some Categories Escalate More Than Others
 

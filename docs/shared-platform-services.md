@@ -61,7 +61,7 @@ can surface here as a *dispute-resolution* defect even though the root cause is 
   sourced from the same shared engines Collection and Payout write into — the AI model reasons
   over this shared source of truth, it doesn't maintain its own separate transaction record
 - **Commercial Engine** — Commission/Revenue Dispute queries raised from Reseller (see
-  [`business-overview.md`](./business-overview.md) section 4) require the AI to reason over the
+  [`business-overview.md`](./business-overview.md) section 5) require the AI to reason over the
   same commission-calculation data the Commercial Engine produces for the Reseller Dashboard's
   Revenue module — a shared-engine defect there can surface here as an AI-suggested "explanation"
   of an already-wrong figure

@@ -1,13 +1,20 @@
 # 🤖 AI Dispute Resolution Engine
 
-**The common, one-stop AI-powered support & dispute resolution hub — QA & Automation Portfolio Project**
+**An AI Operations Copilot for the platform — dispute resolution is its most mature, most rigorously validated capability, not the whole product.**
 
 > This repository documents the QA strategy, test automation, and testing approach applied to an
-> **AI-driven dispute resolution chatbot** that serves as the **shared support layer across
-> multiple fintech products** — Collection, Payout, Connected Banking, BBPS, Reseller, and YOBO —
-> rather than being built separately for each one. Whatever goes wrong in any of those products —
-> a stuck transaction, an account-detail change, a reseller's commission question — this engine
-> is the **one final destination** for resolving it.
+> **AI operating layer** that sits across the platform — reading (with permission) Connected
+> Banking, Collection, Payout, Disputes, Settlements, Reports, Commercials, KYC, Transactions,
+> Audit Logs, User Roles, and Analytics data to understand, correlate, explain, recommend, and in
+> some cases act. The **shared dispute/support layer across six connected products** — Collection,
+> Payout, Connected Banking, BBPS, Reseller, and YOBO — is the slice of this Copilot documented in
+> the most depth here, because it's the slice with the deepest test coverage. Whatever goes wrong
+> in any of those six products — a stuck transaction, an account-detail change, a reseller's
+> commission question — this engine is the **one final destination** for resolving it.
+>
+> See [`docs/business-overview.md`](./docs/business-overview.md) section 1 for the full "what
+> this product actually is" breakdown — including the tiered model for what the AI does
+> autonomously versus only proposes for human confirmation.
 >
 > All content here uses **generic/sample data only**. No client names, company names, or
 > confidential/production information are included. Dates and timelines are placeholders —
@@ -26,11 +33,12 @@
 3. [Tech Stack & Tools Used](#-tech-stack--tools-used)
 4. [Types of Testing Performed](#-types-of-testing-performed)
 5. [How It Works — Dispute Resolution Flow](#-how-it-works--dispute-resolution-flow)
-6. [Key Achievements](#-key-achievements)
-7. [Automation Approach](#-automation-approach)
-8. [Regression Checklist](#-regression-checklist)
-9. [Screenshots & Reports](#-screenshots--reports)
-10. [Repository Structure](#-repository-structure)
+6. [Action Tiers — Answer, Act, or Propose?](#-action-tiers--answer-act-or-propose)
+7. [Key Achievements](#-key-achievements)
+8. [Automation Approach](#-automation-approach)
+9. [Regression Checklist](#-regression-checklist)
+10. [Screenshots & Reports](#-screenshots--reports)
+11. [Repository Structure](#-repository-structure)
 
 > Deeper dives not covered inline in this README: [Stakeholders & Dependencies](./docs/business-overview.md),
 > [Architecture & Flow](./docs/architecture-and-flow.md), [Shared Platform Services](./docs/shared-platform-services.md),
@@ -40,15 +48,25 @@
 
 ## 💡 What is This — and Why One Engine for Six Products?
 
+This product is an **AI Operations Copilot** — an AI operating layer with permissioned access
+across the platform's data (Connected Banking, Collection, Payout, Disputes, Settlements,
+Reports, Commercials, KYC, Transactions, Audit Logs, User Roles, Analytics) that understands,
+correlates, explains, recommends, and — for a defined set of low-risk actions — executes directly.
+For anything higher-risk (refunding a dispute, approving a beneficiary, blocking a merchant,
+creating a settlement), it proposes the action for a human to confirm rather than acting
+unilaterally. Full breakdown: [`docs/business-overview.md`](./docs/business-overview.md) section 1.
+
 Every fintech product in this portfolio — **Collection**, **Payout**, **Connected Banking**,
 **BBPS**, **Reseller**, and **YOBO** — generates support issues and disputes: a transaction stuck
 in an unclear state, a merchant needing to update their registered email or mobile number, a
 question about onboarding status, a reseller questioning a commission figure, or a general "what
-does this error mean?" question.
+does this error mean?" question. This is the slice of the Copilot's capability set documented in
+the most depth in this repo, because it's the slice with the most mature, most rigorously tested
+coverage.
 
 Instead of each product building and maintaining its **own** dispute/support chatbot, the
-platform centralizes this into **one common AI Dispute Resolution Engine** that all six products
-route into. This is a deliberate architectural choice, not an accident:
+platform centralizes this into **one shared AI layer** that all six products route into. This is
+a deliberate architectural choice, not an accident:
 
 - **One place to improve the AI model** — every conversation, across every product, makes the
   same shared model better, instead of six separate models each learning slower in isolation
@@ -68,7 +86,7 @@ lower-quality support teams.
 | Role | What they do |
 |---|---|
 | **Merchant / End User** | Raises an issue from within any of the 6 connected products, converses with the AI agent, gets resolved or escalated |
-| **Reseller** | Raises Commission/Revenue Dispute queries specifically — see [`docs/business-overview.md`](./docs/business-overview.md) section 4 |
+| **Reseller** | Raises Commission/Revenue Dispute queries specifically — see [`docs/business-overview.md`](./docs/business-overview.md) section 5 |
 | **Human Support Agent** | Handles the ~20% of cases the AI escalates rather than resolves directly |
 | **Platform Admin/Ops** | Monitors AI resolution rates, reviews escalation trends, tunes acceptance criteria for AI-suggested resolutions |
 
@@ -121,6 +139,12 @@ conversational AI quality, cross-product dispute workflows, and anomaly detectio
   fallback
 - **Cross-Product Consistency Testing** — the same issue category resolves consistently whether
   raised from Collection, Payout, Connected Banking, BBPS, Reseller, or YOBO
+- **Action-Tier & Confirmation-Flow Testing** — verifying low-risk actions execute directly while
+  high-risk actions (refunds, beneficiary approvals, merchant blocks, settlement creation) always
+  stop at a human-confirmation step, never execute unilaterally — see
+  [`regression-checklist.md`](./regression-checklist.md) section 10
+- **Audit-Trail Verification** — every proposed or executed action is logged with its reasoning,
+  regardless of whether a human approved, rejected, or never reviewed it
 - **API Testing** / **Regression Testing**
 
 ---
@@ -172,8 +196,28 @@ first-class regression category for this repo, not an afterthought.
 | **Email Change** | Merchant requesting to update their registered email address |
 | **Mobile Number Change** | Merchant requesting to update their registered mobile number |
 | **Merchant Onboarding** | Status questions during signup/KYC/activation |
-| **Commission / Revenue Dispute** | Reseller questioning a commission figure or attribution change — see [`docs/business-overview.md`](./docs/business-overview.md) section 4 |
+| **Commission / Revenue Dispute** | Reseller questioning a commission figure or attribution change — see [`docs/business-overview.md`](./docs/business-overview.md) section 5 |
 | **General Fintech Q&A** | Broader questions about fees, settlement timing, supported transfer modes, etc. |
+
+---
+
+## ⚖️ Action Tiers — Answer, Act, or Propose?
+
+The Copilot's capabilities (section 1 of [`docs/business-overview.md`](./docs/business-overview.md))
+split into three tiers by risk, not by convenience:
+
+| Tier | Example | Behavior |
+|---|---|---|
+| **Understand & Recommend** (always autonomous) | "Why did my settlement decrease?", "Summarise today's business" | AI answers directly — read-only, no approval needed |
+| **Low-risk action** (autonomous) | "Generate and email the report" | AI executes directly — reversible, no financial/security exposure |
+| **High-risk action** (propose → human confirms) | "Refund this dispute", "Approve this beneficiary", "Block this merchant", "Create a settlement" | AI drafts the action and its reasoning; a human must confirm before it executes; every proposal is audit-logged regardless of outcome |
+
+Within the dispute/support flow specifically, this is exactly the same principle the "Why Some
+Categories Escalate More Than Others" section of
+[`docs/architecture-and-flow.md`](./docs/architecture-and-flow.md) already documents — commission
+adjustments always escalate, security-sensitive changes require verification, status questions
+resolve freely. The tiers above generalize that same logic to every capability the Copilot has,
+not just dispute resolution.
 
 ---
 

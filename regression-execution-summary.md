@@ -52,6 +52,6 @@ confidence-score conflation between "explaining" and "resolving" — reinforcing
 issue category needs its own dedicated escalation-path testing, not just intent-recognition
 coverage.
 
-**See also:** [`docs/business-overview.md`](./docs/business-overview.md) sections 3–4 for the
+**See also:** [`docs/business-overview.md`](./docs/business-overview.md) sections 4–5 for the
 six-product architecture and issue-category framing behind this test structure, and
 [`sample-defect-report.md`](./sample-defect-report.md) for the full worked defect examples.
