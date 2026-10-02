@@ -125,6 +125,9 @@ confirms" tiers described in section 1, applied specifically to support/dispute 
 | **Action Tier** | Which of the three risk tiers (Understand & Recommend / Low-risk action / High-risk action) a given AI capability falls into — see section 1 |
 | **Propose vs. Execute** | Whether the AI carries out an action directly (execute) or drafts it for a human to confirm first (propose) — high-risk actions are always propose-only |
 | **Audit Trail** | The logged record of an AI-proposed or AI-executed action, including its reasoning, independent of whether a human approved, rejected, or never reviewed it |
+| **Excessive Agency** | OWASP's LLM Top 10 (2026) #3 risk — a system whose functionality, permissions, or autonomy exceed the task at hand. The exact risk class the Action Tier model (section 1) exists to structurally prevent |
+| **Prompt Injection** | OWASP's LLM Top 10 #1 risk — adversarial input attempting to override a system's intended instructions. The exact risk class `TC-048`'s confirmation-gate test defends against |
+| **Decision Authority Index** | A classification of actions/statements by how much authority they require — the general concept the Action Tier model (section 1) is a concrete implementation of; see [`architecture-and-flow.md`](./architecture-and-flow.md) section 3 |
 
 ## 7. Why Cross-Product Consistency Is the Central Testing Theme
 
@@ -143,3 +146,26 @@ in aggregate.
 See [`architecture-and-flow.md`](./architecture-and-flow.md) for the detailed resolution flow, and
 [`../regression-checklist.md`](../regression-checklist.md) section 10 for how the action-tier
 model translates into actual test cases.
+
+## 8. Core Modules and Their Submodules
+
+Sections 1–7 above describe the *issue categories* (what conversations are about) and the
+*action tiers* (how much authority a given capability has). This table is the third, distinct
+cut — the actual functional components that implement both of those, and which skill category
+(see [`tech-and-skills.md`](./tech-and-skills.md)) is the primary way each one gets tested.
+
+| Module | Submodules / Key Components | Responsible For | Primarily Tested Via |
+|---|---|---|---|
+| **Intent Recognition** | Category Classifier · Confidence Scoring · Clarifying-Question Trigger | Classifying a raw message into one of the 6 issue categories, or asking a clarifying question when genuinely ambiguous (`TC-006`) | AI Chatbot / Conversational Testing |
+| **Resolution Engine** | Per-Category Resolution Logic · Cross-Product Data Normalization | Actually resolving (or correctly declining to resolve) an issue — see [`sample-defect-report.md`](../sample-defect-report.md) Defect #1 for what happens when the data feeding this module isn't normalized across products first | Cross-Product Consistency Testing |
+| **Action-Tier Governor** | Decision Authority Classification · Propose-Only Enforcement · Prompt-Injection-Resistant Confirmation Gate | Enforcing the three-tier model structurally — see [`architecture-and-flow.md`](./architecture-and-flow.md) sections 3–6 for why this has to sit outside the conversational layer itself | Action-Tier & Confirmation-Flow Testing |
+| **Escalation Service** | Low-Confidence Routing · Mandatory-Escalation Rules (e.g., commission adjustments) · Context Handoff | Routing to a human agent with full conversation context, whether by low confidence or by a rule that always escalates regardless of confidence | Escalation Testing |
+| **Anomaly Detection** | Fraud-Pattern Matching · Threshold-Breach Alerting | Flagging edge-case transaction patterns independent of the conversational flow | AI Anomaly Detection Testing |
+| **Audit Trail** | Immutable Action Logging (proposed, confirmed, rejected, auto-executed) | Logging every action regardless of outcome — the evidence layer every other module's correctness ultimately has to be checked against | Audit-Trail Verification |
+
+**Why the Action-Tier Governor is listed as its own module, not folded into Resolution or
+Escalation:** per [`architecture-and-flow.md`](./architecture-and-flow.md) sections 4–6, it has
+to behave as a structural control the conversational layer cannot talk itself around — mixing it
+into either the resolution logic or the escalation logic would make it just another piece of
+model-influenced behavior, exactly the property that makes it resistant to Excessive Agency and
+Prompt Injection in the first place.
