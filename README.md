@@ -40,9 +40,13 @@
 10. [Screenshots & Reports](#-screenshots--reports)
 11. [Repository Structure](#-repository-structure)
 
-> Deeper dives not covered inline in this README: [Stakeholders & Dependencies](./docs/business-overview.md),
-> [Architecture & Flow](./docs/architecture-and-flow.md), [Shared Platform Services](./docs/shared-platform-services.md),
-> [UI Consistency](./docs/ui-consistency.md) — see [`docs/README.md`](./docs/README.md) for the full map.
+> Deeper dives not covered inline in this README: [Modules, Submodules & Stakeholders](./docs/business-overview.md),
+> [Architecture, Flow & Real Sequence Diagrams](./docs/architecture-and-flow.md),
+> [Full Tech Stack & Skills Demonstrated](./docs/tech-and-skills.md),
+> [Shared Platform Services](./docs/shared-platform-services.md),
+> [UI Consistency](./docs/ui-consistency.md) — see [`docs/README.md`](./docs/README.md) for the
+> full map. **Every diagram in this repo is drawn in Mermaid and renders natively right here on
+> GitHub — nothing requires visiting another site.**
 
 ---
 
@@ -120,10 +124,14 @@ conversational AI quality, cross-product dispute workflows, and anomaly detectio
 | Category | Tools |
 |---|---|
 | **UI Automation** | Playwright, TypeScript |
-| **API Testing** | Playwright API requests, Postman |
+| **API Testing & Automation** | Playwright API requests, Postman |
+| **Performance Testing** | k6 (concurrent-session load, inference latency, escalation-queue backpressure) |
 | **CI/CD** | Jenkins / GitHub Actions |
-| **Bug Tracking** | JIRA |
+| **Bug Tracking & Traceability** | JIRA, RTM (Requirement Traceability Matrix — see [`sample-rtm.md`](./sample-rtm.md)) |
 | **Version Control** | Git, GitHub |
+
+> Full detail on *why* each tool was chosen, a skill → proof map, and the performance testing
+> approach in depth: [`docs/tech-and-skills.md`](./docs/tech-and-skills.md).
 
 ---
 
@@ -145,48 +153,33 @@ conversational AI quality, cross-product dispute workflows, and anomaly detectio
   [`regression-checklist.md`](./regression-checklist.md) section 10
 - **Audit-Trail Verification** — every proposed or executed action is logged with its reasoning,
   regardless of whether a human approved, rejected, or never reviewed it
+- **Performance Testing** — concurrent-session load, inference latency, and escalation-queue
+  backpressure under a surge of mandatory escalations, validated with k6 (see
+  [`docs/tech-and-skills.md`](./docs/tech-and-skills.md) section 5)
 - **API Testing** / **Regression Testing**
 
 ---
 
 ## 🔄 How It Works — Dispute Resolution Flow
 
-```
-Issue raised from ANY connected product
-   (Collection · Payout · Connected Banking · BBPS · Reseller · YOBO)
-        │
-        ▼
-AI Dispute Resolution Engine receives the issue with product context
-        │
-        ▼
-Intent Recognition — classifies the issue category:
-   Transaction Status · Email Change · Mobile Number Change ·
-   Merchant Onboarding · Commission/Revenue Dispute · General Fintech Q&A
-        │
-        ├──▶ AI CAN resolve (≈80% of cases)
-        │         │
-        │         ▼
-        │    AI proposes/executes the resolution, conversationally
-        │         │
-        │         ▼
-        │    Ticket closed — target: under 6 hours (down from a
-        │    prior 24-72 hour baseline for the same issue types)
-        │
-        └──▶ AI CANNOT resolve confidently (≈20% of cases)
-                  │
-                  ▼
-             Graceful fallback — escalated to a human support agent
-             with full conversation context carried over
-                  │
-                  ▼
-             Human agent resolves, ticket closed
+```mermaid
+flowchart TD
+    A["Issue raised from ANY connected product<br/>Collection / Payout / Connected Banking / BBPS / Reseller / YOBO"] --> B["AI Dispute Resolution Engine<br/>receives the issue with product context"]
+    B --> C["Intent Recognition — classifies into one of 6 categories"]
+    C -->|"AI CAN resolve (~80% of cases)"| D["AI proposes/executes the resolution, conversationally"]
+    D --> E["Ticket closed — target under 6 hours<br/>(down from a 24-72 hour baseline)"]
+    C -->|"AI CANNOT resolve confidently (~20% of cases)"| F["Graceful fallback — escalated to a human agent<br/>with full conversation context carried over"]
+    F --> G["Human agent resolves, ticket closed"]
 ```
 
 **Testing implication:** because this engine is *shared*, a regression here has a **6x blast
 radius** compared to a single-product bug — an intent-recognition regression doesn't just affect
 one product's support quality, it silently degrades support across all six simultaneously. This
 is why cross-product consistency testing (not just per-category correctness) is treated as a
-first-class regression category for this repo, not an afterthought.
+first-class regression category for this repo, not an afterthought. See
+[`docs/architecture-and-flow.md`](./docs/architecture-and-flow.md) for the full set of sequence
+diagrams, including exactly how an Excessive Agency or Prompt Injection defect actually happens
+under the hood.
 
 ### Issue Categories Handled
 
@@ -248,7 +241,8 @@ not just dispute resolution.
 ## 🤖 Automation Approach
 
 Automation is built with **Playwright + TypeScript**, covering conversational flows across issue
-categories and connected products.
+categories and connected products, backed by Postman API coverage and k6 for concurrent-session
+performance testing (see [`docs/tech-and-skills.md`](./docs/tech-and-skills.md) section 5).
 
 ### Priority Automated Scenarios
 
@@ -259,6 +253,7 @@ categories and connected products.
    adjustment requests
 4. Context retention across a multi-turn conversation
 5. Cross-product consistency — same issue category, different originating product
+6. Concurrent-session load and inference-latency testing (k6)
 
 See [`automation/`](./automation) for the framework README and a sample spec file using dummy
 data.
@@ -283,9 +278,9 @@ Full checklist with edge cases available in [`regression-checklist.md`](./regres
 
 ## 📸 Screenshots & Reports
 
-Sample test execution reports and defect report templates are available in
-[`regression-execution-summary.md`](./regression-execution-summary.md) and
-[`sample-defect-report.md`](./sample-defect-report.md).
+Sample test execution reports, defect report templates, and a worked Requirement Traceability
+Matrix are available in [`regression-execution-summary.md`](./regression-execution-summary.md),
+[`sample-defect-report.md`](./sample-defect-report.md), and [`sample-rtm.md`](./sample-rtm.md).
 
 ---
 
@@ -300,11 +295,16 @@ ai-dispute-resolution-engine/
 ├── README.md
 ├── regression-checklist.md          → Full regression suite + edge cases, per category × product
 ├── sample-defect-report.md          → Defect theme taxonomy + worked defect examples
+├── sample-rtm.md                    → Worked Requirement Traceability Matrix, including real coverage gaps
 ├── regression-execution-summary.md  → Sample regression test execution report
 ├── docs/
 │   ├── README.md                    → 📍 Documentation map — start here
-│   ├── business-overview.md         → Why one shared AI engine for six products, issue categories, glossary
-│   ├── architecture-and-flow.md     → Detailed resolution/escalation flow diagrams
+│   ├── business-overview.md         → Why one shared AI engine for six products, issue categories,
+│   │                                    modules/submodules, glossary
+│   ├── architecture-and-flow.md     → Real Mermaid sequence/flow diagrams: resolution/escalation,
+│   │                                    the Excessive Agency and Prompt Injection mechanisms behind
+│   │                                    real defects, the action-tier model as a decision authority boundary
+│   ├── tech-and-skills.md           → Full tech stack (with why), skill → proof map, CI/CD shape, performance depth
 │   ├── shared-platform-services.md  → Company-wide services this product depends on
 │   └── ui-consistency.md            → Cross-product ticket/chat UI consistency
 └── automation/
