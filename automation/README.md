@@ -2,7 +2,11 @@
 
 > Automated scenarios trace directly to [`../regression-checklist.md`](../regression-checklist.md)
 > sections 1–2 (intent recognition + AI-resolved happy path across all 6 products). See
-> [`../docs/README.md`](../docs/README.md) for the full documentation map.
+> [`../docs/README.md`](../docs/README.md) for the full documentation map,
+> [`../docs/architecture-and-flow.md`](../docs/architecture-and-flow.md) for the sequence diagrams
+> each scenario below is built to validate, and
+> [`../docs/tech-and-skills.md`](../docs/tech-and-skills.md) section 5 for the full performance
+> testing approach for this domain.
 
 Automation for the shared dispute-resolution conversational flow, built with **Playwright +
 TypeScript**.
@@ -25,9 +29,11 @@ automation/
 │   └── ChatSession.ts        ← wraps sending a message and reading back structured outcome data
 ├── fixtures/
 │   └── dummy-conversations.ts
-└── tests/
-    ├── sample-dispute-flow.spec.ts
-    └── ...
+├── tests/
+│   ├── sample-dispute-flow.spec.ts
+│   └── ...
+└── k6/
+    └── concurrent-session-load.js   ← concurrent-session load, inference latency, escalation backpressure
 ```
 
 > This repo currently includes one representative sample (`sample-dispute-flow.spec.ts`) rather
@@ -47,3 +53,5 @@ conversations or real account data.
 3. Escalation fallback triggers
 4. Context retention across multi-turn conversations
 5. Cross-product consistency checks
+6. Concurrent-session load and inference-latency testing (k6 — see
+   [`../docs/tech-and-skills.md`](../docs/tech-and-skills.md) section 5)
