@@ -75,7 +75,10 @@ conversation should leave the original number untouched.
 
 **Actual Result**
 The number was changed despite verification never completing — the resolution logic applied the
-change optimistically before confirming the verification step's result.
+change optimistically before confirming the verification step's result. See
+[`docs/architecture-and-flow.md`](./docs/architecture-and-flow.md) section 4 for this exact
+mechanism shown as a sequence diagram — it maps directly to OWASP's LLM Top 10 "Excessive
+Agency" risk class.
 
 **Impact**
 A security-sensitive account field can be changed without proper verification — this is the
@@ -114,7 +117,9 @@ may explain the calculation, but must never treat "I explained it confidently" a
 The AI's high confidence in *explaining* the calculation was incorrectly reused as the
 resolution-confidence signal for the *adjustment request* itself, so the ticket auto-closed as
 AI-resolved without ever reaching a human agent — even though no adjustment was actually made and
-the reseller's underlying concern was never addressed.
+the reseller's underlying concern was never addressed. See
+[`docs/architecture-and-flow.md`](./docs/architecture-and-flow.md) section 5 for this exact
+mechanism shown as a flowchart.
 
 **Impact**
 A reseller's legitimate revenue concern is silently dropped with a false "resolved" status — a
