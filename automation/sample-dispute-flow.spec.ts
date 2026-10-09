@@ -9,7 +9,7 @@
 import { test, expect, Page } from '@playwright/test';
 
 // ── Dummy test data ─────────────────────────────────────────────
-const CONNECTED_PRODUCTS = ['collection', 'payout', 'connectedBanking', 'bbps', 'yobo'] as const;
+const CONNECTED_PRODUCTS = ['collection', 'payout', 'connectedBanking', 'bbps', 'reseller', 'yobo'] as const;
 
 const DUMMY_TRANSACTION_QUERY = "Why is my transaction still showing as pending?";
 const DUMMY_EMAIL_CHANGE_QUERY = "I'd like to update my registered email address.";

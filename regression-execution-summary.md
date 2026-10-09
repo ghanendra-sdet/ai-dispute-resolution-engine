@@ -24,6 +24,7 @@
 | Cross-Product Consistency | 2 | 1 | 1 | Directly surfaced the BBPS inconsistency defect |
 | UI Consistency | 3 | 3 | 0 | — |
 | Anomaly Detection & Negative Testing | 3 | 2 | 0 | 1 blocked — fraud-pattern test data not seeded in this cycle |
+| Action-Tier & Broader Capability Testing (TC-034–TC-050) | 17 | 17 | 0 | Understand & Recommend queries, low-risk autonomous execution, high-risk propose-only enforcement, prompt-injection resistance, and permission boundaries — see `regression-checklist.md` section 10 |
 
 ## Key Product Metrics Validated This Cycle
 
