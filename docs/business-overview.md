@@ -108,7 +108,7 @@ confirms" tiers described in section 1, applied specifically to support/dispute 
 - **Commission / Revenue Dispute** — a reseller questioning a commission figure, an attribution
   change, or why a merchant's transactions stopped generating expected revenue (raised from
   Reseller — see the
-  [Reseller Management Platform](https://github.com/ghanendra-sdet/reseller-management-platform)
+  <a href="https://github.com/ghanendra-sdet/reseller-management-platform" target="_blank" rel="noopener noreferrer">Reseller Management Platform</a>
   repo's lifetime-commission model for why this needs its own category rather than folding into
   General Fintech Q&A)
 - **General Fintech Q&A** — fees, settlement timing, supported transfer modes, and similar

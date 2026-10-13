@@ -36,7 +36,7 @@ Per the glossary in [`business-overview.md`](./business-overview.md), watch for 
   "Transaction Status" in another's
 - "Commission/Revenue Dispute" is Reseller-specific in practice but the category taxonomy itself
   is shared platform-wide — the label must match exactly what Reseller's own
-  [`docs/ui-consistency.md`](https://github.com/ghanendra-sdet/reseller-management-platform/blob/main/docs/ui-consistency.md)
+  <a href="https://github.com/ghanendra-sdet/reseller-management-platform/blob/main/docs/ui-consistency.md" target="_blank" rel="noopener noreferrer"><code>docs/ui-consistency.md</code></a>
   calls the same concept
 
 ## 3. Escalation & Handoff Messaging Consistency

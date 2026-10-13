@@ -6,7 +6,7 @@
 > for the tools and skills behind this testing approach, and [`README.md`](./README.md) for the
 > full documentation map.
 >
-> Every diagram below is drawn in [Mermaid](https://mermaid.js.org/), which GitHub renders
+> Every diagram below is drawn in <a href="https://mermaid.js.org/" target="_blank" rel="noopener noreferrer">Mermaid</a>, which GitHub renders
 > natively in-page — nothing here requires opening another site or tool to read it.
 
 ## 1. Cross-Product Intake & System Interaction Map
@@ -166,5 +166,5 @@ identical in an aggregate number to a category failing for the wrong reasons.
 
 **Sources for the real-world standard referenced above** (used to ground this document's
 Defect #2/#3 and prompt-injection diagrams in a genuine, current LLM-security classification):
-[OWASP GenAI/LLM Top 10 2026](https://cybersecuritynews.com/owasp-genai-llm-top-10-2026/),
-[Excessive Agency — confidence/authority testing guidance](https://futureagi.com/glossary/excessive-agency/).
+<a href="https://cybersecuritynews.com/owasp-genai-llm-top-10-2026/" target="_blank" rel="noopener noreferrer">OWASP GenAI/LLM Top 10 2026</a>,
+<a href="https://futureagi.com/glossary/excessive-agency/" target="_blank" rel="noopener noreferrer">Excessive Agency — confidence/authority testing guidance</a>.
