@@ -39,6 +39,7 @@
 9. [Regression Checklist](#-regression-checklist)
 10. [Screenshots & Reports](#-screenshots--reports)
 11. [Repository Structure](#-repository-structure)
+12. [Connected Products](#-connected-products)
 
 > Deeper dives not covered inline in this README: [Modules, Submodules & Stakeholders](./docs/business-overview.md),
 > [Architecture, Flow & Real Sequence Diagrams](./docs/architecture-and-flow.md),
@@ -324,9 +325,9 @@ ai-dispute-resolution-engine/
 This engine is the shared dispute/support layer — the one final destination for issue resolution
 — for:
 
-- [Fintech Collection Engine](https://github.com/ghanendra-sdet/fintech-collection-engine)
-- [Fintech Payout Engine](https://github.com/ghanendra-sdet/fintech-payout-engine)
-- [Fintech Connected Banking Platform](https://github.com/ghanendra-sdet/fintech-connected-banking-platform)
-- [BBPS Bill Payment Platform](https://github.com/ghanendra-sdet/bbps-bill-payment-platform)
-- [Reseller Management Platform](https://github.com/ghanendra-sdet/reseller-management-platform)
-- [YOBO](https://github.com/ghanendra-sdet/yobo)
+- <a href="https://github.com/ghanendra-sdet/fintech-collection-engine" target="_blank" rel="noopener noreferrer">Fintech Collection Engine</a>
+- <a href="https://github.com/ghanendra-sdet/fintech-payout-engine" target="_blank" rel="noopener noreferrer">Fintech Payout Engine</a>
+- <a href="https://github.com/ghanendra-sdet/fintech-connected-banking-platform" target="_blank" rel="noopener noreferrer">Fintech Connected Banking Platform</a>
+- <a href="https://github.com/ghanendra-sdet/bbps-bill-payment-platform" target="_blank" rel="noopener noreferrer">BBPS Bill Payment Platform</a>
+- <a href="https://github.com/ghanendra-sdet/reseller-management-platform" target="_blank" rel="noopener noreferrer">Reseller Management Platform</a>
+- <a href="https://github.com/ghanendra-sdet/yobo" target="_blank" rel="noopener noreferrer">YOBO</a>
