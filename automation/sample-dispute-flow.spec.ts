@@ -36,7 +36,7 @@ class ChatSession {
     return this.page.getByTestId('ticket-status').innerText();
   }
 
-  async getEscalationBanner() {
+  getEscalationBanner() {
     return this.page.getByTestId('escalation-banner');
   }
 }
